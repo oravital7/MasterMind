@@ -10,12 +10,17 @@ class Guesser
 {
     protected:
     uint length;
+    string lastReply;
 
     public:
     
-    virtual string guess();
-    virtual void startNewGame(uint length);
-    virtual void learn(string reply);
+    virtual string guess() = 0;
+    void startNewGame(uint length){
+        this->length = length;
+    }
+    void learn(string reply){
+        lastReply = reply;
+    }
 };
 
 } // namespace bullpgia

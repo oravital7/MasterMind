@@ -1,8 +1,6 @@
 #include "calculate.hpp"
 #include <sstream>
 
-#include <iostream>
-
 using namespace std;
 string bullpgia::calculateBullAndPgia(string choice, string guess)
 {
@@ -18,12 +16,4 @@ string bullpgia::calculateBullAndPgia(string choice, string guess)
     ostringstream result;
     result << bull << "," << pgia;
     return  result.str();
-}
-
-int main()
-{
-    string s = bullpgia::calculateBullAndPgia("5231","1235");
-    cout << s << endl;
-
-    return 0;
 }

@@ -7,9 +7,7 @@ namespace bullpgia
 class SmartGuesser : public Guesser
 {
 
-    virtual string guess() override;
-    virtual void startNewGame(uint length) override;
-    virtual void learn(string reply) override;
+     string guess() override;
 };
 
 } // namespace bullpgia
