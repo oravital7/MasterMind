@@ -5,23 +5,16 @@ using namespace bullpgia;
 
 string SmartGuesser::guess()
 {
-	if (lastReply == "")
-	{
-		combination.clear();
-		initialize("");
+	if(lastGuess == "") {
 		lastGuess = "1122";
-		return lastGuess;
 	}
-
-	else
-	{
-		removeCombination();
-		int index =  (rand()% combination.size());
-		lastGuess = combination[index];
-		return combination[index];
-
+	else {
+	int index = (rand() % combination.size());
+	lastGuess = randomString(index);
 	}
+	return lastGuess;
 }
+
 
 void SmartGuesser::initialize(string result)
 {
@@ -37,13 +30,31 @@ void SmartGuesser::initialize(string result)
 	}
 }
 
-void SmartGuesser::removeCombination()
+string SmartGuesser::randomString(int index)
 {
-	for (int i = 0; i < combination.size(); i++)
+	auto it = combination.begin();
+	for (int i = 0; i < index; i++)
 	{
-		if (calculateBullAndPgia(combination[i], lastGuess) != lastReply)
+		it++;
+	}
+	return *it;
+}
+
+void SmartGuesser::startNewGame(uint length)
+{
+	lastGuess = "";
+	this->length = length;
+	initialize("");
+}
+
+void SmartGuesser::learn(string reply)
+{
+	for (auto it = combination.begin(); it != combination.end(); ++it)
+	{
+		if (calculateBullAndPgia(*it, lastGuess) != reply)
 		{
-			combination.erase(combination.begin() + i);
+			it = combination.erase(it);
 		}
 	}
+
 }
