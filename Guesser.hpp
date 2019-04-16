@@ -8,17 +8,22 @@ namespace bullpgia
 
 class Guesser
 {
-    protected:
+  protected:
     uint length;
     string lastReply;
 
-    public:
-    
+    int test = 0;
+
+  public:
     virtual string guess() = 0;
-    void startNewGame(uint length){
+    void startNewGame(uint length)
+    {
         this->length = length;
+        lastReply = "";
+        test = 0;
     }
-    void learn(string reply){
+    void learn(string reply)
+    {
         lastReply = reply;
     }
 };

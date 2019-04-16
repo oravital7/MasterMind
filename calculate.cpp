@@ -1,5 +1,4 @@
 #include "calculate.hpp"
-#include <sstream>
 
 using namespace std;
 string bullpgia::calculateBullAndPgia(string choice, string guess)
@@ -13,7 +12,5 @@ string bullpgia::calculateBullAndPgia(string choice, string guess)
             pgia++;
         }
     }
-    ostringstream result;
-    result << bull << "," << pgia;
-    return  result.str();
+    return  to_string(bull)+","+to_string(pgia);
 }
