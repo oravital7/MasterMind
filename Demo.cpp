@@ -16,6 +16,7 @@ using namespace std;
 using namespace bullpgia;
 
 int main() {
+
 	ConstantChooser c1234{"1234"}, c12345{"12345"}, c9999{"9999"};
 	ConstantGuesser g1234{"1234"}, g12345{"12345"}, g9999{"9999"};
 	cout << play(c1234, g1234, 4, 100) << endl;  // prints 1 - guesser wins in one turn.
@@ -33,5 +34,5 @@ int main() {
 	for (uint i=0; i<100; ++i) {
 		cout << play(randy, smarty, 4, 100) << endl;  // smarty should always win in at most 10 turns!
 	}
-	return 0;
+	 return 0;
 }

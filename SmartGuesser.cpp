@@ -7,7 +7,7 @@ string SmartGuesser::guess()
 {
 	if (lastGuess == "")
 	{
-		lastGuess = "112222";
+		lastGuess = "1122";
 	}
 	else
 	{
