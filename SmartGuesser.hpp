@@ -4,14 +4,15 @@
 
 #include <list> 
 #include <iterator> 
+#include <map>
 
 namespace bullpgia
 {
 
 class SmartGuesser : public Guesser
 {
-    list<string> combination = {};
-    //list<string> :: iterator it;
+    list<string> combination;
+
     string lastGuess,lastReply;
 
     string guess() override;
@@ -20,9 +21,11 @@ class SmartGuesser : public Guesser
 
 
 
-    void initialize(string result );
-    void removeCombination();
-    string randomString(int index);
+    void initialize(string result);
+    string miniMax();
+    int getMax(map<string, int> &scoreCount);
+    string getMin(map<string, int> &score);
+
 
 };
 
