@@ -57,63 +57,63 @@ void SmartGuesser::learn(string reply)
 
 }
 
-string SmartGuesser::miniMax()
-{
-	map<string, int> scoreCount;
-	map<string, int> score;
+// string SmartGuesser::miniMax()
+// {
+// 	map<string, int> scoreCount;
+// 	map<string, int> score;
 
-	string key;
+// 	string key;
 
-	for (auto i = combination.begin(); i != combination.end(); ++i)
-	{
-				//cout <<"i: " <<  *i<< endl;
+// 	for (auto i = combination.begin(); i != combination.end(); ++i)
+// 	{
+// 				//cout <<"i: " <<  *i<< endl;
 
-		for (auto j = combination.begin(); j != combination.end(); ++j)
-		{
-			key = calculateBullAndPgia(*j, *i);
-			if (scoreCount.count(key) > 0)
-			{
-				scoreCount.at(key)++;
-			}
-			else
-			{
-				scoreCount.emplace(key, 1);
-			}
-		}
+// 		for (auto j = combination.begin(); j != combination.end(); ++j)
+// 		{
+// 			key = calculateBullAndPgia(*j, *i);
+// 			if (scoreCount.count(key) > 0)
+// 			{
+// 				scoreCount.at(key)++;
+// 			}
+// 			else
+// 			{
+// 				scoreCount.emplace(key, 1);
+// 			}
+// 		}
 
-		int max = getMax(scoreCount);
-		scoreCount.clear();
-		score.emplace(*i, max);
-	}
-	string result = getMin(score);
-	combination.remove(result);
+// 		int max = getMax(scoreCount);
+// 		scoreCount.clear();
+// 		score.emplace(*i, max);
+// 	}
+// 	string result = getMin(score);
+// 	combination.remove(result);
 
-	return result;
-}
+// 	return result;
+// }
 
-int SmartGuesser::getMax(map<string, int> &scoreCount)
-{
-	int max = 0;
-	for (auto it : scoreCount)
-	{
-		if (it.second > max)
-			max = it.second;
-	}
-	return max;
-}
+// int SmartGuesser::getMax(map<string, int> &scoreCount)
+// {
+// 	int max = 0;
+// 	for (auto it : scoreCount)
+// 	{
+// 		if (it.second > max)
+// 			max = it.second;
+// 	}
+// 	return max;
+// }
 
-string SmartGuesser::getMin(map<string, int> &score)
-{
-	int min = std::numeric_limits<int>::max();
-	string str;
-	for (auto it : score)
-	{
-		if (it.second < min)
-		{
-			min = it.second;
-			str = it.first;
-		}
-		return str;
-	}
+// string SmartGuesser::getMin(map<string, int> &score)
+// {
+// 	int min = std::numeric_limits<int>::max();
+// 	string str;
+// 	for (auto it : score)
+// 	{
+// 		if (it.second < min)
+// 		{
+// 			min = it.second;
+// 			str = it.first;
+// 		}
+// 		return str;
+// 	}
 
-}
+// }
