@@ -18,6 +18,7 @@ class SmartGuesser : public Guesser
     string guess() override;
     void startNewGame(uint length) override;
     void learn(string reply) override;
+    
 
 
 
@@ -25,6 +26,8 @@ class SmartGuesser : public Guesser
     string miniMax();
     int getMax(map<string, int> &scoreCount);
     string getMin(map<string, int> &score);
+
+    string firstGuess();
 
 
 };

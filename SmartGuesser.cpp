@@ -7,7 +7,7 @@ string SmartGuesser::guess()
 {
 	if (lastGuess == "")
 	{
-		lastGuess = "1122";
+		lastGuess = firstGuess();
 	}
 	else
 	{
@@ -20,6 +20,19 @@ string SmartGuesser::guess()
 		lastGuess = *it;
 	}
 	return lastGuess;
+}
+
+string SmartGuesser::firstGuess()
+{
+	string str="1";
+	if(length==1)return str;
+
+	for(int i = 0; i < length-2; i++)
+	{
+		str=str+"1";
+	}
+	
+	return str+"2";	
 }
 
 void SmartGuesser::initialize(string result)
