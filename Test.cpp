@@ -53,13 +53,22 @@ int main()
 		// Private tests
 		testcase.setname("Calculate bull and pgia")
 				.CHECK_OUTPUT(calculateBullAndPgia("1234", "5678"), "0,0") // 0 bull, 0 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("12345", "66661"), "0,1") // 0 bull, 1 pgia
 				.CHECK_OUTPUT(calculateBullAndPgia("5721", "1234"), "0,2") // 0 bull, 2 pgia
-				;
+				.CHECK_OUTPUT(calculateBullAndPgia("1111", "1111"), "4,0") // 4 bull, 0 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("555555", "111111"), "0,0") // 0 bull, 0 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("1", "2"), "0,0") // 0 bull, 0 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("1", "1"), "1,0") // 1 bull, 0 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("12", "21"), "0,2") // 0 bull, 2 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("143", "132"), "1,1") // 1 bull, 1 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("123", "321"), "1,2") // 1 bull, 2 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("1234", "4321"), "0,4") // 0 bull, 4 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("12345", "66661"), "0,1") // 0 bull, 1 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("123456789", "123456789"), "9,0") // 9 bull, 0 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("987654321", "123456789"), "1,8"); // 1 bull, 8 pgia
+				
 
 		testcase.setname("Play with smart guesser");
-		//RandomChooser randy;
-		//SmartGuesser smarty;
-
 		for (uint i = 0; i < 50; ++i)
 		{
 			testcase.CHECK_EQUAL(play(randy, smarty, 2, 100) <= 10, true); // smarty should always win in at most 10 turns!
@@ -80,10 +89,19 @@ int main()
 			testcase.CHECK_EQUAL(play(randy, smarty, 5, 100) <= 10, true); // smarty should always win in at most 10 turns!
 		}
 
-		// for (uint i = 0; i < 50; ++i)
-		// {
-		// 	testcase.CHECK_EQUAL(play(randy, smarty, 6, 100) <= 10, true); // smarty should always win in at most 10 turns!
-		// }
+		ConstantChooser c{"123445"};
+		for (uint i = 0; i < 50; ++i)
+		{
+			ConstantGuesser b{"12345"+to_string(i)};
+			testcase.CHECK_EQUAL(play(c, b, 6, 100), 101); // smarty should loose always
+		}
+
+		for (uint i = 10; i < 100; ++i)
+		{
+			c = ConstantChooser{"1234" + to_string(i)};
+			ConstantGuesser b{"1234" + to_string(i)};
+			testcase.CHECK_EQUAL(play(c, b, 6, 100), 1); // Guesser should win always in 1 turn
+		}
 
 		grade = testcase.grade();
 	}
