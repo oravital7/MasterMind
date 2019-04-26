@@ -1,7 +1,7 @@
 /**
  * A demo program for bull-pgia.
  * 
- * @author Erel Segal-Halevi
+
  * @since  2019-04
  */
 
@@ -96,6 +96,20 @@ int main()
 			testcase.CHECK_EQUAL(play(c, b, 6, 100), 101); // smarty should loose always
 		}
 
+		c = ConstantChooser{"9881"};
+		for (uint i = 0; i < 50; ++i)
+		{			
+			ConstantGuesser l{"987"+to_string(i)};
+			testcase.CHECK_EQUAL(play(c, l, 4, 100), 101); // smarty should loose always
+		}
+
+		c = ConstantChooser{"233"};
+		for (uint i = 0; i < 50; ++i)
+		{			
+			ConstantGuesser l{"22"+to_string(i)};
+			testcase.CHECK_EQUAL(play(c, l, 3, 100), 101); // smarty should loose always
+		}
+
 		for (uint i = 10; i < 100; ++i)
 		{
 			c = ConstantChooser{"1234" + to_string(i)};
@@ -103,6 +117,19 @@ int main()
 			testcase.CHECK_EQUAL(play(c, b, 6, 100), 1); // Guesser should win always in 1 turn
 		}
 
+		for (uint i = 10; i < 100; ++i)
+		{
+			c = ConstantChooser{"789" + to_string(i)};
+			ConstantGuesser b{"789" + to_string(i)};
+			testcase.CHECK_EQUAL(play(c, b, 5, 100), 1); // Guesser should win always in 1 turn
+		}
+
+		for (uint i = 10; i < 100; ++i)
+		{
+			c = ConstantChooser{"25" + to_string(i)};
+			ConstantGuesser b{"25" + to_string(i)};
+			testcase.CHECK_EQUAL(play(c, b, 4, 100), 1); // Guesser should win always in 1 turn
+		}
 		grade = testcase.grade();
 	}
 	else
