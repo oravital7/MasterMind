@@ -65,7 +65,15 @@ int main()
 				.CHECK_OUTPUT(calculateBullAndPgia("1234", "4321"), "0,4") // 0 bull, 4 pgia
 				.CHECK_OUTPUT(calculateBullAndPgia("12345", "66661"), "0,1") // 0 bull, 1 pgia
 				.CHECK_OUTPUT(calculateBullAndPgia("123456789", "123456789"), "9,0") // 9 bull, 0 pgia
-				.CHECK_OUTPUT(calculateBullAndPgia("987654321", "123456789"), "1,8"); // 1 bull, 8 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("987654321", "123456789"), "1,8") // 1 bull, 8 pgia
+				.CHECK_OUTPUT(calculateBullAndPgia("2234", "2111"), "1,0")
+				.CHECK_OUTPUT(calculateBullAndPgia("2134", "1111"), "1,0")
+				.CHECK_OUTPUT(calculateBullAndPgia("1404", "4441"), "1,2")
+				.CHECK_OUTPUT(calculateBullAndPgia("5423", "3523"), "2,1");
+
+
+
+
 				
 
 		testcase.setname("Play with smart guesser");
@@ -93,21 +101,21 @@ int main()
 		for (uint i = 0; i < 50; ++i)
 		{
 			ConstantGuesser b{"12345"+to_string(i)};
-			testcase.CHECK_EQUAL(play(c, b, 6, 100), 101); // smarty should loose always
+			testcase.CHECK_EQUAL(play(c, b, 6, 100), 101); // Guesser should loose always
 		}
 
 		c = ConstantChooser{"9881"};
 		for (uint i = 0; i < 50; ++i)
 		{			
 			ConstantGuesser l{"987"+to_string(i)};
-			testcase.CHECK_EQUAL(play(c, l, 4, 100), 101); // smarty should loose always
+			testcase.CHECK_EQUAL(play(c, l, 4, 100), 101); // Guesser should loose always
 		}
 
 		c = ConstantChooser{"233"};
 		for (uint i = 0; i < 50; ++i)
 		{			
 			ConstantGuesser l{"22"+to_string(i)};
-			testcase.CHECK_EQUAL(play(c, l, 3, 100), 101); // smarty should loose always
+			testcase.CHECK_EQUAL(play(c, l, 3, 100), 101); // Guesser should loose always
 		}
 
 		for (uint i = 10; i < 100; ++i)
