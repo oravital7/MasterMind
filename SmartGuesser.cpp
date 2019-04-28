@@ -1,5 +1,4 @@
 #include "SmartGuesser.hpp"
-#include <iostream>
 
 using namespace bullpgia;
 
