@@ -1,37 +1,50 @@
 #include "SmartGuesser.hpp"
-
+#include <iostream>
 using namespace bullpgia;
 
 string SmartGuesser::guess()
 {
-	if (lastGuess == "")
+
+	if (length < 6)
 	{
-		lastGuess = firstGuess();
-	}
-	else
-	{
-		int index = rand() % combination.size();
-		auto it = combination.begin();
-		for(int i = 0; i < index; i++) {
-			it++;
+		if (lastGuess == "")
+		{
+			lastGuess = firstGuess();
 		}
-	//	lastGuess = miniMax();
-		lastGuess = *it;
+		else
+		{
+			int index = rand() % combination.size();
+
+			auto it = combination.begin();
+			for (int i = 0; i < index; i++)
+			{
+				it++;
+			}
+			//  lastGuess = miniMax();
+			lastGuess = *it;
+		}
 	}
+	else if (currentNum < 10)
+	{
+		//finds the digits
+		lastGuess = nextGuess();
+	}
+
 	return lastGuess;
 }
 
 string SmartGuesser::firstGuess()
 {
-	string str="1";
-	if(length==1)return str;
+	string str = "1";
+	if (length == 1)
+		return str;
 
-	for(int i = 0; i < length-2; i++)
+	for (int i = 0; i < length - 2; i++)
 	{
-		str=str+"1";
+		str = str + "1";
 	}
-	
-	return str+"2";	
+
+	return str + "2";
 }
 
 void SmartGuesser::initialize(string result)
@@ -52,80 +65,170 @@ void SmartGuesser::startNewGame(uint length)
 {
 	lastGuess = "";
 	this->length = length;
-	combination.clear();
-	initialize("");
+	if (length < 6)
+	{
+		combination.clear();
+		initialize("");
+	}
+	else
+	{
+		currentNum = 0;
+		std::fill(numbers, numbers + 10, 0);
+		unChosenNum = '\0';
+		hasFound = true;
+		isIntialized = false;
+	}
 }
 
 void SmartGuesser::learn(string reply)
+{
+	if (length < 6)
+		learnShort(reply);
+	else
+	{
+		learnLong(reply);
+	}
+}
+
+void SmartGuesser::learnShort(string reply)
 {
 	for (auto it = combination.begin(); it != combination.end(); ++it)
 	{
 		if (calculateBullAndPgia(*it, lastGuess).compare(reply) != 0)
 		{
-			  it = combination.erase(it);
-			  it--;
+			it = combination.erase(it);
+			it--;
+		}
+	}
+}
+
+//great length: 6-9
+
+void SmartGuesser::learnLong(string reply)
+{
+	if (currentNum < 10)
+	{
+		numbers[currentNum] = reply[0] - '0';
+		currentNum++;
+	}
+	else if (!isIntialized)
+	{
+		unChosenNum = notInNum();
+		rs.assign(length, unChosenNum);
+	
+		isIntialized = true;
+		currentChar = findNextChar();
+		lastGuess = stringMaker(currentChar, 0); //creating the first string
+	}
+	else
+	{
+		findPosition(reply);
+	}
+}
+
+string SmartGuesser::nextGuess()
+{
+	string nGuess = "";
+	for (size_t i = 0; i < length; i++)
+	{
+		nGuess += to_string(currentNum);
+	}
+	return nGuess;
+}
+char SmartGuesser::notInNum()
+{
+	int i;
+	for (i = 0; i < 10; i++)
+	{
+		if (numbers[i] == 0)
+			break;
+	}
+	return i + '0';
+}
+
+void SmartGuesser::findPosition(string reply)
+{
+	// if the right position was found
+	if (reply[0] == '1')
+	{
+		updateChar();
+		hasFound = true;
+		currentChar = findNextChar();
+		if(hasFound) {
+			string st(rs.begin(), rs.end());
+			lastGuess = st;
+		}
+		else {
+		lastGuess = stringMaker(currentChar, 0);
+		if(rs[0] != unChosenNum) placement();
 		}
 	}
 
+	else
+	{
+		placement();
+	}
 }
 
-// string SmartGuesser::miniMax()
-// {
-// 	map<string, int> scoreCount;
-// 	map<string, int> score;
+void SmartGuesser::updateChar()
+{
+	for (int i = 0; i < length; i++)
+	{
+		if (lastGuess[i] != unChosenNum)
+		{
+			rs[i] = lastGuess[i];
+			break;
+		}
+	}
+}
 
-// 	string key;
+int SmartGuesser::findNextChar()
+{
+	int i;
+	for (i = 0; i < 10; i++)
+	{
+		if (numbers[i] > 0)
+		{
+			hasFound = false;
+			numbers[i]--;
+			break;
+		}
+	}
+	return i + '0';
+}
 
-// 	for (auto i = combination.begin(); i != combination.end(); ++i)
-// 	{
-// 				//cout <<"i: " <<  *i<< endl;
+string SmartGuesser::stringMaker(char c, int position)
+{
+	string str = "";
+	for (int i = 0; i < length; i++)
+	{
+		if (i == position)
+			str += c;
+		else
+		{
+			str += unChosenNum;
+		}
+	}
+	return str;
+}
 
-// 		for (auto j = combination.begin(); j != combination.end(); ++j)
-// 		{
-// 			key = calculateBullAndPgia(*j, *i);
-// 			if (scoreCount.count(key) > 0)
-// 			{
-// 				scoreCount.at(key)++;
-// 			}
-// 			else
-// 			{
-// 				scoreCount.emplace(key, 1);
-// 			}
-// 		}
+void SmartGuesser::placement()
+{
+	bool found = false;
+	for (int i = 0; i < lastGuess.length() - 1 && !found; i++)
+	{
+		if (lastGuess[i] == currentChar)
+		{
 
-// 		int max = getMax(scoreCount);
-// 		scoreCount.clear();
-// 		score.emplace(*i, max);
-// 	}
-// 	string result = getMin(score);
-// 	combination.remove(result);
-
-// 	return result;
-// }
-
-// int SmartGuesser::getMax(map<string, int> &scoreCount)
-// {
-// 	int max = 0;
-// 	for (auto it : scoreCount)
-// 	{
-// 		if (it.second > max)
-// 			max = it.second;
-// 	}
-// 	return max;
-// }
-
-// string SmartGuesser::getMin(map<string, int> &score)
-// {
-// 	int min = std::numeric_limits<int>::max();
-// 	string str;
-// 	for (auto it : score)
-// 	{
-// 		if (it.second < min)
-// 		{
-// 			min = it.second;
-// 			str = it.first;
-// 		}
-// 		return str;
-// 	}
-
-// }
+			for (int j = i + 1; j < lastGuess.length() && !found; j++)
+			{
+				if (rs[j] == unChosenNum)
+				{
+					lastGuess[i] = unChosenNum;
+					lastGuess[j] = currentChar;
+					found = true;
+				}
+			}
+		}
+	}
+}

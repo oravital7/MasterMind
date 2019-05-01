@@ -50,7 +50,7 @@ int main()
 			testcase.CHECK_EQUAL(play(randy, smarty, 4, 100) <= 10, true); // smarty should always win in at most 10 turns!
 		}
 
-		// Private tests
+		//Private tests
 		testcase.setname("Calculate bull and pgia")
 				.CHECK_OUTPUT(calculateBullAndPgia("1234", "5678"), "0,0") // 0 bull, 0 pgia
 				.CHECK_OUTPUT(calculateBullAndPgia("12345", "66661"), "0,1") // 0 bull, 1 pgia
@@ -69,12 +69,8 @@ int main()
 				.CHECK_OUTPUT(calculateBullAndPgia("2234", "2111"), "1,0")
 				.CHECK_OUTPUT(calculateBullAndPgia("2134", "1111"), "1,0")
 				.CHECK_OUTPUT(calculateBullAndPgia("1404", "4441"), "1,2")
-				.CHECK_OUTPUT(calculateBullAndPgia("5423", "3523"), "2,1");
-
-
-
-
-				
+				.CHECK_OUTPUT(calculateBullAndPgia("5423", "3523"), "2,1")
+				.CHECK_OUTPUT(calculateBullAndPgia("3542", "2622"), "1,0");
 
 		testcase.setname("Play with smart guesser");
 		for (uint i = 0; i < 50; ++i)
@@ -138,6 +134,7 @@ int main()
 			ConstantGuesser b{"25" + to_string(i)};
 			testcase.CHECK_EQUAL(play(c, b, 4, 100), 1); // Guesser should win always in 1 turn
 		}
+
 		grade = testcase.grade();
 	}
 	else
