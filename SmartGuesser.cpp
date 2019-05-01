@@ -29,7 +29,7 @@ string SmartGuesser::guess()
 		//finds the digits
 		lastGuess = nextGuess();
 	}
-
+	cout << "LastGuess: " << lastGuess << endl;
 	return lastGuess;
 }
 
@@ -41,7 +41,7 @@ string SmartGuesser::firstGuess()
 
 	for (int i = 0; i < length - 2; i++)
 	{
-		str = str + "1";
+		str += "1";
 	}
 
 	return str + "2";
@@ -109,16 +109,17 @@ void SmartGuesser::learnLong(string reply)
 	if (currentNum < 10)
 	{
 		numbers[currentNum] = reply[0] - '0';
-		currentNum++;
+		if (sumNubers())
+		{
+			currentNum = 10;
+			InitLong();
+		}
+		else
+			currentNum++;
 	}
 	else if (!isIntialized)
 	{
-		unChosenNum = notInNum();
-		rs.assign(length, unChosenNum);
-	
-		isIntialized = true;
-		currentChar = findNextChar();
-		lastGuess = stringMaker(currentChar, 0); //creating the first string
+		InitLong();
 	}
 	else
 	{
@@ -154,13 +155,18 @@ void SmartGuesser::findPosition(string reply)
 		updateChar();
 		hasFound = true;
 		currentChar = findNextChar();
-		if(hasFound) {
+		if (hasFound)
+		{
 			string st(rs.begin(), rs.end());
 			lastGuess = st;
 		}
-		else {
-		lastGuess = stringMaker(currentChar, 0);
-		if(rs[0] != unChosenNum) placement();
+		else
+		{
+			int post = lastPosition();
+			lastGuess = stringMaker(currentChar, post);
+
+			if (post || rs[0] != unChosenNum)
+				placement();
 		}
 	}
 
@@ -231,4 +237,36 @@ void SmartGuesser::placement()
 			}
 		}
 	}
+}
+
+bool SmartGuesser::sumNubers()
+{
+	int sum = 0;
+	for (int i : numbers)
+	{
+		sum += i;
+	}
+	return sum == length;
+}
+
+int SmartGuesser::lastPosition()
+{
+	for (int i = rs.size() - 1; i >= 0; i--)
+	{
+		if (rs[i] == currentChar)
+		{
+			return i;
+		}
+	}
+	return 0;
+}
+
+void SmartGuesser::InitLong()
+{
+	unChosenNum = notInNum();
+	rs.assign(length, unChosenNum);
+
+	isIntialized = true;
+	currentChar = findNextChar();
+	lastGuess = stringMaker(currentChar, 0); //creating the first string
 }

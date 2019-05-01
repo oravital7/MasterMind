@@ -37,7 +37,9 @@ class SmartGuesser : public Guesser
     int findNextChar();
     string stringMaker(char c, int position);
     void placement();
-
+    bool sumNubers();
+    int lastPosition();
+    void InitLong();
 
 };
 
