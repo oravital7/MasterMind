@@ -2,6 +2,7 @@
 #include <iostream>
 using namespace bullpgia;
 
+//guess the combination based on the length of the string
 string SmartGuesser::guess()
 {
 
@@ -12,15 +13,13 @@ string SmartGuesser::guess()
 			lastGuess = firstGuess();
 		}
 		else
-		{
+		{	//guess a random number from the remaining options
 			int index = rand() % combination.size();
-
 			auto it = combination.begin();
 			for (int i = 0; i < index; i++)
 			{
 				it++;
-			}
-			//  lastGuess = miniMax();
+			}			
 			lastGuess = *it;
 		}
 	}
@@ -29,38 +28,11 @@ string SmartGuesser::guess()
 		//finds the digits
 		lastGuess = nextGuess();
 	}
-	cout << "LastGuess: " << lastGuess << endl;
 	return lastGuess;
 }
 
-string SmartGuesser::firstGuess()
-{
-	string str = "1";
-	if (length == 1)
-		return str;
 
-	for (int i = 0; i < length - 2; i++)
-	{
-		str += "1";
-	}
-
-	return str + "2";
-}
-
-void SmartGuesser::initialize(string result)
-{
-	if (result.length() == length)
-	{
-		combination.push_back(result);
-		return;
-	}
-
-	for (int i = 0; i <= 9; i++)
-	{
-		initialize(result + to_string(i));
-	}
-}
-
+//initializing all global variables
 void SmartGuesser::startNewGame(uint length)
 {
 	lastGuess = "";
@@ -80,9 +52,10 @@ void SmartGuesser::startNewGame(uint length)
 	}
 }
 
+//direct to the right funcion for each length
 void SmartGuesser::learn(string reply)
 {
-	if (length < 6)
+	if (length < 6) /////////////////////////////////////////////////
 		learnShort(reply);
 	else
 	{
@@ -90,6 +63,38 @@ void SmartGuesser::learn(string reply)
 	}
 }
 
+
+//************************* short length functions **************************//
+//first guess 
+string SmartGuesser::firstGuess()
+{
+	string str = "1";
+	if (length == 1)
+		return str;
+
+	for (int i = 0; i < length - 2; i++)
+	{
+		str += "1";
+	}
+
+	return str + "2";
+}
+//intilaizing all the possible combinations 
+void SmartGuesser::initialize(string result)
+{
+	if (result.length() == length)
+	{
+		combination.push_back(result);
+		return;
+	}
+
+	for (int i = 0; i <= 9; i++)
+	{
+		initialize(result + to_string(i));
+	}
+}
+
+//for each guss the function filter the possible guesses
 void SmartGuesser::learnShort(string reply)
 {
 	for (auto it = combination.begin(); it != combination.end(); ++it)
@@ -102,8 +107,9 @@ void SmartGuesser::learnShort(string reply)
 	}
 }
 
-//great length: 6-9
+//************************* great length functions **************************//
 
+//responsible for crreating next guesses
 void SmartGuesser::learnLong(string reply)
 {
 	if (currentNum < 10)
@@ -127,6 +133,7 @@ void SmartGuesser::learnLong(string reply)
 	}
 }
 
+//first guesses - finds all digits of the number
 string SmartGuesser::nextGuess()
 {
 	string nGuess = "";
@@ -136,6 +143,8 @@ string SmartGuesser::nextGuess()
 	}
 	return nGuess;
 }
+
+//finds a num that is not in the "secret number"
 char SmartGuesser::notInNum()
 {
 	int i;
@@ -147,6 +156,7 @@ char SmartGuesser::notInNum()
 	return i + '0';
 }
 
+//finds the next possible guess
 void SmartGuesser::findPosition(string reply)
 {
 	// if the right position was found
@@ -175,7 +185,7 @@ void SmartGuesser::findPosition(string reply)
 		placement();
 	}
 }
-
+//updating the result with the right char
 void SmartGuesser::updateChar()
 {
 	for (int i = 0; i < length; i++)
@@ -188,6 +198,7 @@ void SmartGuesser::updateChar()
 	}
 }
 
+//finding the next char that need to placed
 int SmartGuesser::findNextChar()
 {
 	int i;
@@ -203,6 +214,7 @@ int SmartGuesser::findNextChar()
 	return i + '0';
 }
 
+//creates a string of the first guess
 string SmartGuesser::stringMaker(char c, int position)
 {
 	string str = "";
@@ -218,6 +230,7 @@ string SmartGuesser::stringMaker(char c, int position)
 	return str;
 }
 
+//creating possible guesses based on earlier knowladge (does everything - including coffee)
 void SmartGuesser::placement()
 {
 	bool found = false;
@@ -239,6 +252,7 @@ void SmartGuesser::placement()
 	}
 }
 
+//returns true if all digits where found
 bool SmartGuesser::sumNubers()
 {
 	int sum = 0;
@@ -248,7 +262,7 @@ bool SmartGuesser::sumNubers()
 	}
 	return sum == length;
 }
-
+//finds the position of a given char
 int SmartGuesser::lastPosition()
 {
 	for (int i = rs.size() - 1; i >= 0; i--)
@@ -261,6 +275,7 @@ int SmartGuesser::lastPosition()
 	return 0;
 }
 
+//initializing when all digits where found
 void SmartGuesser::InitLong()
 {
 	unChosenNum = notInNum();
