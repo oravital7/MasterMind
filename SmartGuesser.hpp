@@ -5,7 +5,6 @@
 #include <list> 
 #include <vector>
 #include <iterator> 
-#include <map>
 
 namespace bullpgia
 {

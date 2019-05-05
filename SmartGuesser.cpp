@@ -1,5 +1,5 @@
 #include "SmartGuesser.hpp"
-#include <iostream>
+
 using namespace bullpgia;
 
 //guess the combination based on the length of the string
@@ -55,14 +55,8 @@ void SmartGuesser::startNewGame(uint length)
 //direct to the right funcion for each length
 void SmartGuesser::learn(string reply)
 {
-	if (length < 6) /////////////////////////////////////////////////
-		learnShort(reply);
-	else
-	{
-		learnLong(reply);
-	}
+	length < 6 ? learnShort(reply) : learnLong(reply);
 }
-
 
 //************************* short length functions **************************//
 //first guess 
