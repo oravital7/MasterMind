@@ -1,10 +1,4 @@
 #pragma once
-/**
- * Header file for playing bull-pgia.
- * 
- * @author Erel Segal-Halevi
- * @since  2019-04
- */
 
 #include "Chooser.hpp"
 #include "Guesser.hpp"
