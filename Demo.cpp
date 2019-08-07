@@ -1,10 +1,3 @@
-/**
- * A demo program for bull-pgia.
- * 
- * @author Erel Segal-Halevi
- * @since  2019-04
- */
-
 
 #include <iostream>
 using namespace std;
