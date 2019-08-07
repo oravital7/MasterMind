@@ -101,7 +101,7 @@ void SmartGuesser::learnShort(string reply)
 	}
 }
 
-//************************* great length functions **************************//
+//************************* Long length functions **************************//
 
 // Responsible for crreating next guesses
 void SmartGuesser::learnLong(string reply)
