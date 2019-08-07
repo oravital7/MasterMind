@@ -1,10 +1,3 @@
-/**
- * Implementation of bull-pgia game
- * 
- * @author Erel Segal-Halevi
- * @since  2019-04
- */
-
 #include "play.hpp"
 #include "calculate.hpp"
 #include <string>
